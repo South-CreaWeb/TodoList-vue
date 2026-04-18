@@ -62,8 +62,10 @@ const filteredTasks = computed(() => {
       <button @click="currentStatus = 'pending'">Pending</button>
       <button @click="currentStatus = 'done'">done</button>
     </div>
-    <input v-model="task" type="text">
-    <button @click="addTask">Add</button>
+    <div class="">
+      <input v-model="task" type="text">
+      <button @click="addTask">Add</button>
+    </div>
   </section>
 
   <section class="display_tasks">
@@ -78,6 +80,37 @@ const filteredTasks = computed(() => {
 </template>
 
 <style>
+/** GLOBAL */
+nav {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 50px;
+}
+
+/** ADD TASK */
+.add_task {
+  display: flex;
+}
+
+/** DISPLAY TASKS */
+.display_tasks {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.display_tasks ul {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.display_tasks li {
+  display: flex;
+  justify-content: space-between;
+  width: 50vh;
+}
+/** FILTER PART */
 .disable {
   text-decoration: line-through;
 }
