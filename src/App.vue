@@ -55,24 +55,27 @@ const filteredTasks = computed(() => {
     <h1>Todo List with VueJS</h1>
   </nav>
 
-  <section class="add_task">
-    <h2>Add Task</h2>
+  <section class="new_task">
+    <div class="add_task">
+      <h2>Add Task</h2>
+      <input v-model="task" type="text">
+      <button @click="addTask">Add</button>
+    </div>
     <div class="filter_task">
+      <h2>Filter</h2>
       <button @click="currentStatus = 'all'">All</button>
       <button @click="currentStatus = 'pending'">Pending</button>
       <button @click="currentStatus = 'done'">done</button>
-    </div>
-    <div class="">
-      <input v-model="task" type="text">
-      <button @click="addTask">Add</button>
     </div>
   </section>
 
   <section class="display_tasks">
     <ul>
-      <li v-for="task in filteredTasks" :key="task.id" :class="{ disable: task.done }">
-        <input v-model="task.done" type="checkbox">
-        {{ task.text }}
+      <li v-for="task in filteredTasks" :key="task.id">
+        <div class="message_task">
+          <input v-model="task.done" type="checkbox">
+          <span :class="{ disable: task.done }">{{ task.text }}</span>
+        </div>
         <button @click="deleteTask(task.id)">Delete</button>
       </li>
     </ul>
@@ -81,6 +84,24 @@ const filteredTasks = computed(() => {
 
 <style>
 /** GLOBAL */
+body {
+  font-family: sans-serif;
+  background-color: #2f2f2f;
+  font-size: 1rem;
+}
+
+h1 {
+  font-size: 3.5rem;
+}
+
+h2 {
+  font-size: 2.3rem;
+}
+
+h1, h2 {
+  color: #42b883;
+}
+
 nav {
   display: flex;
   justify-content: center;
@@ -88,30 +109,71 @@ nav {
   margin-bottom: 50px;
 }
 
-/** ADD TASK */
-.add_task {
+/** NEW TASK __ ADD TASK*/
+.new_task {
   display: flex;
+  justify-content: space-around;
+  margin: 0px 20px;
 }
 
 /** DISPLAY TASKS */
 .display_tasks {
   display: flex;
   justify-content: center;
-  margin-top: 25px;
+  margin-top: 50px;
 }
 
 .display_tasks ul {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  width: 100%;
+  max-width: 60%;
+  gap: 15px;
 }
+
 .display_tasks li {
   display: flex;
   justify-content: space-between;
-  width: 50vh;
+  align-items: center;
+  width: 100%;
+  padding: 25px 25px;
+  background-color: #1D293D;
+  border: 1px solid #1D293D;
+  border-radius: 10px;
 }
-/** FILTER PART */
+
+.display_tasks button {
+  border: 1px solid #dc3545;
+  border-radius: 10px;
+  background-color: #dc3545;
+}
+
+.display_tasks button:hover {
+  background-color: #ff4e60;
+}
+
+.message_task input {
+  margin-right: 15px;
+}
+
+.message_task span {
+  color: white;
+  font-size: 1.5rem;
+}
+
+/** FILTERED PART */
 .disable {
   text-decoration: line-through;
+}
+
+.filter_task button {
+  border: none;
+}
+
+/** BUTTONS */
+button {
+  padding: 5px 10px;
+  color: white;
+  background-color: #42b883;
 }
 </style>
