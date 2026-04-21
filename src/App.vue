@@ -213,7 +213,7 @@ nav {
 
 /** FILTERED PART */
 .active {
-  background-color: #369b6e;
+  background-color: #256b4c;
 }
 
 .disable {
