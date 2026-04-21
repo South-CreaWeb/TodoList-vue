@@ -95,9 +95,9 @@ const filteredTasks = computed(() => {
     </div>
     <div class="filter_task">
       <h2>Filter</h2>
-      <button @click="currentStatus = 'all'">All</button>
-      <button @click="currentStatus = 'pending'">Pending</button>
-      <button @click="currentStatus = 'done'">done</button>
+      <button :class="{ active: currentStatus === 'all' }" class="filter_left" @click="currentStatus = 'all'">All</button>
+      <button :class="{ active: currentStatus === 'pending' }"  @click="currentStatus = 'pending'">Pending</button>
+      <button :class="{ active: currentStatus === 'done' }" class="filter_right" @click="currentStatus = 'done'">done</button>
     </div>
   </section>
 
@@ -148,6 +148,24 @@ nav {
   margin: 0px 20px;
 }
 
+.add_task input {
+  border: none;
+  padding: 5px 10px;
+  border-radius: 10px 0 0 10px;
+}
+
+.add_task input:focus {
+  outline: none;
+}
+
+.add_task button {
+  border: none;
+  border-radius: 0 10px 10px 0;
+}
+
+.add_task button:hover {
+  background-color: #55eba7;
+}
 /** DISPLAY TASKS */
 .display_tasks {
   display: flex;
@@ -194,12 +212,28 @@ nav {
 }
 
 /** FILTERED PART */
+.active {
+  background-color: #369b6e;
+}
+
 .disable {
   text-decoration: line-through;
 }
 
 .filter_task button {
   border: none;
+}
+
+.filter_task button:hover {
+  background: #55eba7;
+}
+
+.filter_task .filter_left {
+  border-radius: 10px 0 0 10px;
+}
+
+.filter_task .filter_right {
+  border-radius: 0 10px 10px 0;
 }
 
 /** BUTTONS */
