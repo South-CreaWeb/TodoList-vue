@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from "vue"
+import { ref, computed, onMounted } from "vue"
 
 type Tasks = {
   id: string,
@@ -10,6 +10,23 @@ type Tasks = {
 const task = ref<string>("")
 const tasks = ref<Tasks[]>([])
 const currentStatus = ref<"all" | "pending" | "done">("all")
+
+function initLocalStorage() {
+
+  const initStorage = localStorage.getItem("tasks")
+
+  if(initStorage) {
+    try {
+      tasks.value = JSON.parse(initStorage)
+    } catch {
+      tasks.value = []
+    }
+  }
+}
+
+onMounted(() => {
+  initLocalStorage()
+})
 
 function addTask() {
 
@@ -23,11 +40,24 @@ function addTask() {
 
   tasks.value.push(newTask)
 
+  localStorage.setItem("tasks", JSON.stringify(tasks.value))
+
   task.value = ""
+
 }
 
 function deleteTask(id: string) {
+
   tasks.value = tasks.value.filter(task => task.id !== id)
+
+  localStorage.setItem("tasks", JSON.stringify(tasks.value))
+
+}
+
+function saveTask() {
+
+  localStorage.setItem("tasks", JSON.stringify(tasks.value))
+
 }
 
 const filteredTasks = computed(() => {
@@ -43,6 +73,8 @@ const filteredTasks = computed(() => {
   if(currentStatus.value === "done") {
     return tasks.value.filter(task => task.done)
   }
+
+  localStorage.setItem("tasks", JSON.stringify(tasks.value))
 
   return tasks.value
 })
@@ -73,7 +105,7 @@ const filteredTasks = computed(() => {
     <ul>
       <li v-for="task in filteredTasks" :key="task.id">
         <div class="message_task">
-          <input v-model="task.done" type="checkbox">
+          <input v-model="task.done" type="checkbox" @change="saveTask">
           <span :class="{ disable: task.done }">{{ task.text }}</span>
         </div>
         <button @click="deleteTask(task.id)">Delete</button>
@@ -85,7 +117,7 @@ const filteredTasks = computed(() => {
 <style>
 /** GLOBAL */
 body {
-  font-family: sans-serif;
+  font-family: 'Monserrat' ,sans-serif;
   background-color: #2f2f2f;
   font-size: 1rem;
 }
@@ -125,9 +157,9 @@ nav {
 
 .display_tasks ul {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   width: 100%;
-  max-width: 60%;
+  justify-content: center;
   gap: 15px;
 }
 
@@ -135,7 +167,7 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: 50%;
   padding: 25px 25px;
   background-color: #1D293D;
   border: 1px solid #1D293D;
